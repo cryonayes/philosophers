@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:15:52 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:15:39 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:47:06 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	m_sleep(uint64_t sleep_ms, t_philo *p)
 
 void	print_state(t_philo *philo, t_state state, uint64_t timestamp)
 {
-	const char *states[6] = {STR_THINKING, STR_EATING, STR_SLEEPING, STR_TOOK_FORK, STR_DEAD, NULL};
+	const char	*states[6] = {STR_THINKING, STR_EATING, STR_SLEEPING,
+		STR_TOOK_FORK, STR_DEAD, NULL};
 
 	if (!philo->env->is_running)
 		return ;

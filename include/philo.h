@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:53:49 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:16:58 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:48:23 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,21 @@ typedef enum e_state
 	SLEEPING,
 	TOOK_FORK,
 	DEAD
-} t_state;
+}	t_state;
 
-typedef struct s_env t_env;
+typedef struct s_env	t_env;
 
 typedef struct s_philo
 {
-	int			id;
-	int			l_fork;
-	int			r_fork;
-	int			eat_count;
-	bool		done;
-	uint64_t	last_eat;
-	
-	pthread_t	thread_id;
+	int				id;
+	int				l_fork;
+	int				r_fork;
+	int				eat_count;
+	bool			done;
+	uint64_t		last_eat;
+	pthread_t		thread_id;
 	pthread_mutex_t	read;
-	
-	t_env		*env;
-
+	t_env			*env;
 }	t_philo;
 
 typedef struct s_env
@@ -65,7 +62,6 @@ typedef struct s_env
 	int				must_eat;
 	int				count_done;
 	bool			is_running;
-
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
@@ -83,15 +79,13 @@ void		*life_cycle_checker(void *arg);
 
 // utils.c
 void		print_state(t_philo *philo, t_state state, uint64_t timestamp);
-//void		m_sleep(uint64_t sleep_ms, t_philo *p);
 uint64_t	get_time_ms(void);
 
 // actions.c
-void	take_forks(t_philo *philo, uint64_t timestamp);
-void	leave_forks(t_philo *philo);
-
-void	philo_eat(t_philo *philo, uint64_t timestamp);
-void	philo_sleep(t_philo *philo);
-void	philo_think(t_philo *philo);
+void		take_forks(t_philo *philo, uint64_t timestamp);
+void		leave_forks(t_philo *philo);
+void		philo_eat(t_philo *philo, uint64_t timestamp);
+void		philo_sleep(t_philo *philo);
+void		philo_think(t_philo *philo);
 
 #endif

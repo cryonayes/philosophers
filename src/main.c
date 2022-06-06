@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:53:54 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:00:46 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:46:43 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	init_threads(t_env *env)
 
 	index = -1;
 	while (++index < env->n_philo)
-		pthread_create(&env->philos[index].thread_id, NULL, &life_cycle, &env->philos[index]);
+		pthread_create(&env->philos[index].thread_id, NULL,
+			&life_cycle, &env->philos[index]);
 	pthread_create(&life_cycle_id, NULL, &life_cycle_checker, env);
 	pthread_join(life_cycle_id, NULL);
 }
@@ -76,5 +77,4 @@ int	main(int argc, char **argv)
 	init_mutexes(&env);
 	init_philos(&env);
 	init_threads(&env);
-	// temizlik vakti
 }

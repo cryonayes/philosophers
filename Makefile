@@ -6,7 +6,7 @@
 #    By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/03 19:23:30 by aeser             #+#    #+#              #
-#    Updated: 2022/06/04 14:38:25 by aeser            ###   ########.fr        #
+#    Updated: 2022/06/06 19:51:29 by aeser            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ_DIR	:= obj
 OBJ		:= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 INCLUDE	:= -I./include
-CFLAGS	:= -ggdb -Wall -lpthread $(INCLUDE)
+CFLAGS	:= -ggdb -Wall -Wextra -Werror -lpthread $(INCLUDE)
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:06:35 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:35:12 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:51:58 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	*life_cycle_checker(void *arg)
 			break ;
 		if (index == env->n_philo)
 			index = 0;
+		usleep(1000);
 		timestamp = get_time_ms();
-		if (!env->philos[index].done && timestamp - env->philos[index].last_eat > env->tt_die)
+		if (!env->philos[index].done
+			&& (int)(timestamp - env->philos[index].last_eat) > env->tt_die)
 		{
 			print_state(&env->philos[index], DEAD, get_time_ms());
 			env->is_running = false;
