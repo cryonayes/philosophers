@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:15:52 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 17:32:19 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:15:39 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	m_sleep(uint64_t sleep_ms, t_philo *p)
 
 	end_time = get_time_ms() + sleep_ms;
 	while (get_time_ms() < end_time && p->env->is_running > 0)
-		usleep(10);
+		usleep(50);
 }
 
 void	print_state(t_philo *philo, t_state state, uint64_t timestamp)

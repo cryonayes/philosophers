@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 15:41:11 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 17:25:46 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:19:02 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,19 @@ void	leave_forks(t_philo *philo)
 
 void	philo_eat(t_philo *philo, uint64_t timestamp)
 {
-	take_forks(philo, timestamp);
 	print_state(philo, EATING, timestamp);
 	philo->eat_count++;
 	philo->last_eat = timestamp;
-	m_sleep(philo->env->tt_eat, philo);
+	usleep(philo->env->tt_eat * 1000);
 }
 
-void	philo_sleep(t_philo *philo, uint64_t timestamp)
+void	philo_sleep(t_philo *philo)
 {
-	leave_forks(philo);
-	print_state(philo, SLEEPING, timestamp);
-	m_sleep(philo->env->tt_sleep, philo);
+	print_state(philo, SLEEPING, get_time_ms());
+	usleep(philo->env->tt_sleep * 1000);
 }
 
-void	philo_think(t_philo *philo, uint64_t timestamp)
+void	philo_think(t_philo *philo)
 {
-	print_state(philo, THINKING, timestamp);
+	print_state(philo, THINKING, get_time_ms());
 }

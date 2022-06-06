@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:53:49 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 15:56:59 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 19:16:58 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void		*life_cycle_checker(void *arg);
 
 // utils.c
 void		print_state(t_philo *philo, t_state state, uint64_t timestamp);
-void		m_sleep(uint64_t sleep_ms, t_philo *p);
+//void		m_sleep(uint64_t sleep_ms, t_philo *p);
 uint64_t	get_time_ms(void);
 
 // actions.c
@@ -91,7 +91,7 @@ void	take_forks(t_philo *philo, uint64_t timestamp);
 void	leave_forks(t_philo *philo);
 
 void	philo_eat(t_philo *philo, uint64_t timestamp);
-void	philo_sleep(t_philo *philo, uint64_t timestamp);
-void	philo_think(t_philo *philo, uint64_t timestamp);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
 #endif
