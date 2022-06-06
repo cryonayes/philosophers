@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:53:49 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:48:23 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/06 21:02:09 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_philo
 	bool			done;
 	uint64_t		last_eat;
 	pthread_t		thread_id;
-	pthread_mutex_t	read;
 	t_env			*env;
 }	t_philo;
 
@@ -65,13 +64,17 @@ typedef struct s_env
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
-	pthread_mutex_t	read;
 }	t_env;
 
-// main.c
+// init.c
 void		init_arguments(int argc, char **argv, t_env *env);
 void		init_mutexes(t_env *env);
 void		init_philos(t_env *env);
+void		init_threads(t_env *env);
+
+// cleanup.c
+void		destroy_threads(t_env *env);
+void		destroy_mutexes(t_env *env);
 
 // philo_thread.c
 void		*life_cycle(void *arg);

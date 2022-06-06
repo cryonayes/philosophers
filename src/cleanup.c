@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 20:53:54 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 21:02:17 by aeser            ###   ########.fr       */
+/*   Created: 2022/06/06 21:01:39 by aeser             #+#    #+#             */
+/*   Updated: 2022/06/06 21:02:14 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	destroy_threads(t_env *env)
 {
-	t_env	env;
+	int	index;
 
-	init_arguments(argc, argv, &env);
-	init_mutexes(&env);
-	init_philos(&env);
-	init_threads(&env);
-	destroy_threads(&env);
-	destroy_mutexes(&env);
+	index = -1;
+	while (++index < env->n_philo)
+		pthread_detach(env->philos[index].thread_id);
+}
+
+void	destroy_mutexes(t_env *env)
+{
+	int	index;
+
+	index = -1;
+	while (++index < env->n_philo)
+		pthread_mutex_destroy(&env->forks[index]);
+	pthread_mutex_destroy(&env->write);
 }
