@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:53:49 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 21:02:09 by aeser            ###   ########.fr       */
+/*   Updated: 2022/06/08 19:32:04 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ void		init_philos(t_env *env);
 void		init_threads(t_env *env);
 
 // cleanup.c
-void		destroy_threads(t_env *env);
-void		destroy_mutexes(t_env *env);
+void		destroy(t_env *env);
 
 // philo_thread.c
 void		*life_cycle(void *arg);
