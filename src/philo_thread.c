@@ -56,6 +56,7 @@ void	*life_cycle(void *arg)
 		take_forks(philo, get_time_ms());
 		philo_eat(philo, get_time_ms());
 		leave_forks(philo);
+		philo_think(philo);
 		if (philo->eat_count == philo->env->must_eat)
 		{
 			philo->done = true;
@@ -63,7 +64,6 @@ void	*life_cycle(void *arg)
 			break ;
 		}
 		philo_sleep(philo);
-		philo_think(philo);
 	}
 	return (NULL);
 }
