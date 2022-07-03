@@ -6,12 +6,13 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 15:41:11 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/07 01:18:07 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 15:46:10 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// İki çatal alana kadar blocking olarak bekler.
 void	take_fork(t_philo *philo)
 {
 	sem_wait(philo->env->sem_forks);
@@ -20,6 +21,7 @@ void	take_fork(t_philo *philo)
 	print_state(philo, TOOK_FORK, get_time_ms());
 }
 
+// Kullanım bittikten sonra çatal sayılarını 2 arttırır.
 void	leave_fork(t_philo *philo)
 {
 	sem_post(philo->env->sem_forks);

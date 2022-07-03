@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:00:28 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 21:09:30 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 15:54:34 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_arguments(int argc, char **argv, t_env *env)
 {
 	if (argc < 5)
 	{
-		printf("Usage: ./philo tt_die tt_eat tt_sleep <eat_count>\n");
+		printf("Usage: ./philo philo_count tt_die tt_eat tt_sleep <eat_count>\n");
 		exit(FAILURE);
 	}
 	env->n_philo = atoi(argv[1]);

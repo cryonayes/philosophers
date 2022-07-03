@@ -6,12 +6,23 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:06:35 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/08 22:35:04 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 15:52:01 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+	Her philosopher bir process'dir dolayısıyla waitpid kullanılark bu process'lerin
+	bitip bitmediğini kontrol edebiliriz.
+
+	Burda ise waitpid ile herhangi bir child process'in bitmesini bekliyoruz.
+	Bunu n_philo kadar yaparak tüm philosopher'ların yemesi gereken kadar yemek yediğini
+	kontrol ediyoruz.
+
+	Tüm philosopher'lar yemeyi bitirdiği zaman sem_post değeri arttırılıyor ve main
+	fonksiyonunda destroy fonksiyonuna geçiliyor. 
+*/
 void	*checker_function(void *arg)
 {
 	int		index;
@@ -35,8 +46,11 @@ void	*life_cycle_checker(void *arg)
 	env = philo->env;
 	while (true)
 	{
+		// Philosopher yemesi gerektiği kadar yediyse break yapılır
 		if (philo->eat_count == env->must_eat)
 			break ;
+		// Ölümü kontrol eder, eğer herhangi bir philosopher ölürse sem_done değeri bir arttırılır,
+		//ve main fonksiyonunda destroy fonksiyonuna geçilir. 
 		timestamp = get_time_ms();
 		if ((int)(timestamp - philo->last_eat) > env->tt_die)
 		{
@@ -44,22 +58,31 @@ void	*life_cycle_checker(void *arg)
 			sem_post(env->sem_done);
 			break ;
 		}
+		// CPU kullanımını dengelemek için.
 		usleep(1000);
 	}
 	return (NULL);
 }
 
+/*
+	Her bir child process (philosopher) bu fonksiyonu çalıştırır.
+*/
 void	start_lifecycle(t_philo *philo)
 {
 	pthread_t	checker_thread;
 
+	// Philosopher'in id'si çift sayı ise ufak bir süre bekler.
+	// Bunun nedeni aynı anda tüm philosopher'ların yarısına yetecek kadar çatal olmasıdır.
 	if (philo->id % 2 == 0)
 	{
 		philo_think(philo);
 		usleep(1000);
 	}
+	// Ölüm kontrolü için kullanılacak olan son yeme timestamp'ı
 	philo->last_eat = get_time_ms();
+	// Her bir philosopherın kendi ölüm kontrolünü yapacak olan thread başlatılır. 
 	pthread_create(&checker_thread, NULL, &life_cycle_checker, philo);
+	// Thread detach edilerek process bittiği anda hafızadan silinmesi gerektiği söylenir.
 	pthread_detach(checker_thread);
 	while (true)
 	{
