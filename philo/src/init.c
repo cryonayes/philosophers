@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:00:28 by aeser             #+#    #+#             */
-/*   Updated: 2022/07/03 15:54:34 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 16:08:44 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void	init_arguments(int argc, char **argv, t_env *env)
 	check_arguments(env);
 }
 
+/*
+	Her bir fork mutex'dir, mutex'ler lock ve unlock özelliklerine sahiplerdir.
+	Bir mutex lock edildiği zaman başka bir thread o mutex'i locklamak ister ise
+	o mutex unlock olana kadar beklemek zorundadır. Bu özellik sayesinde farklı threadler
+	arası senkronizasyon işlemi sağlanabilir.
+*/
 void	init_mutexes(t_env *env)
 {
 	int	index;
@@ -52,10 +58,18 @@ void	init_mutexes(t_env *env)
 	env->forks = malloc(sizeof(pthread_mutex_t) * env->n_philo);
 	index = -1;
 	while (++index < env->n_philo)
-		pthread_mutex_init(&env->forks[index], NULL);
-	pthread_mutex_init(&env->write, NULL);
+		pthread_mutex_init(&env->forks[index], NULL); // Mutex'i Unlocked olarak init eder.
+	// Yazım işlemlerini senkron yapmak için.
+	// (Şart değil) Printf hali hazırda thread safe bir fonksiyonç.
+	pthread_mutex_init(&env->write, NULL); 
 }
 
+/*
+	Her bir philosopher sağında ve solunda bulunan çatallara erişebilir, bu yüzden sol çatal
+	philo_id, sağ çatal ise philo_id + 1 olur. Bulundukları masa yuvarlak olduğu için ise
+	sağ çatalın n_philo ile modu alınır. Bu sayede son philonun sağ çatalı, ilk philonun sol
+	çatalı olmuş olur.
+*/
 void	init_philos(t_env *env)
 {
 	int	index;
@@ -70,10 +84,15 @@ void	init_philos(t_env *env)
 		env->philos[index].thread_id = 0;
 		env->philos[index].last_eat = 0;
 		env->philos[index].eat_count = 0;
-		env->philos[index].done = false;
+		env->philos[index].done = false; // Philosopher'ın yemesi bitti mi?
 	}
 }
 
+/*
+	Her bir philo bir thread'dir, threadler aynı process içerisinde çalışır
+	ve paylaştıkları hafıza da aynıdır. Bu yüzden process içerisinde kullanılan
+	değişkenler gibi ortak verilere erişebilirler. 
+*/
 void	init_threads(t_env *env)
 {
 	int			index;
@@ -83,6 +102,8 @@ void	init_threads(t_env *env)
 	while (++index < env->n_philo)
 		pthread_create(&env->philos[index].thread_id, NULL,
 			&life_cycle, &env->philos[index]);
+	// Tüm philosopher'ları kontrol eden tek bir thread var.
 	pthread_create(&life_cycle_id, NULL, &life_cycle_checker, env);
+	// life_cycle_checker thread'i bitene kadar blocking olarak bekler. 
 	pthread_join(life_cycle_id, NULL);
 }

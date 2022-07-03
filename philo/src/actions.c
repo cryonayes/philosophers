@@ -6,12 +6,13 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 15:41:11 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:43:35 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 16:15:26 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// Sağ ve sol fork'ları al/alana kadar bekle 
 void	take_forks(t_philo *philo, uint64_t timestamp)
 {
 	pthread_mutex_lock(&philo->env->forks[philo->l_fork]);
@@ -20,6 +21,7 @@ void	take_forks(t_philo *philo, uint64_t timestamp)
 	print_state(philo, TOOK_FORK, timestamp);
 }
 
+// Sağ ve sol fork'ları bırak
 void	leave_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->env->forks[philo->l_fork]);

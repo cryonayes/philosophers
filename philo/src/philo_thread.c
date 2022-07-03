@@ -6,12 +6,19 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:06:35 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:51:58 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 16:17:21 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+	0'ıncı index'den başlar ve tüm philosopherları döngü içerisinde küçük zaman
+	aralıkları ile kontrol eder.
+
+	Herhangi bir philosopher öldüğü zaman sonlanır ve main içersinde destroy
+	fonksiyonuna geçilir.
+*/
 void	*life_cycle_checker(void *arg)
 {
 	int			index;
@@ -22,17 +29,19 @@ void	*life_cycle_checker(void *arg)
 	index = 0;
 	while (true)
 	{
+		// Tüm philosopher'lar yemeyi tamamladıysa.
 		if (env->count_done == env->n_philo)
 			break ;
 		if (index == env->n_philo)
 			index = 0;
 		usleep(1000);
 		timestamp = get_time_ms();
+		// Kontrol edilen philosopher yemeyi bitirmediyse ve öldüyse.
 		if (!env->philos[index].done
 			&& (int)(timestamp - env->philos[index].last_eat) > env->tt_die)
 		{
 			print_state(&env->philos[index], DEAD, get_time_ms());
-			env->is_running = false;
+			env->is_running = false; // Ortak değişken. Birinin ölüp ölmediğini söyler. :63
 			break ;
 		}
 		index++;
@@ -46,11 +55,15 @@ void	*life_cycle(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->last_eat = get_time_ms();
+	// Fork sayısından dolayı aynı anda philosopher'ların yarısı kadar yiyebilir.
+	// Çift id'li philosopher'ları diğerleri yemeye başlayana kadar beklet. 
 	if (philo->id % 2 == 0)
 	{
 		philo_think(philo);
+		// Burası tt_eat'den küçük olması kaydıyla random bir süre olabilir.
 		usleep(philo->env->tt_eat * 0.25 * 1000);
 	}
+	// Herhangi bir philosopher ölmediği sürece.
 	while (philo->env->is_running)
 	{
 		take_forks(philo, get_time_ms());
@@ -60,7 +73,7 @@ void	*life_cycle(void *arg)
 		if (philo->eat_count == philo->env->must_eat)
 		{
 			philo->done = true;
-			philo->env->count_done++;
+			philo->env->count_done++; // :32
 			break ;
 		}
 		philo_sleep(philo);

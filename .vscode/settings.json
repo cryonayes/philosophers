@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"philo.h": "c",
+		"streambuf": "cpp",
+		"system_error": "cpp",
+		"functional": "cpp"
+	}
+}

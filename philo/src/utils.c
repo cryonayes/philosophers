@@ -6,7 +6,7 @@
 /*   By: aeser <aeser@42kocaeli.com.tr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:15:52 by aeser             #+#    #+#             */
-/*   Updated: 2022/06/06 19:47:06 by aeser            ###   ########.fr       */
+/*   Updated: 2022/07/03 16:14:00 by aeser            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ uint64_t	get_time_ms(void)
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
 }
 
+/*
+	usleep fonksiyonu yüksek çözünürlükte çalışmadığı için onu küçük parçalara
+	bölüp kendimiz manuel olarak kontrol sağlıyoruz. Bu sayede hata payı düşüyor.
+*/
 void	m_sleep(uint64_t sleep_ms, t_philo *p)
 {
 	uint64_t	end_time;
